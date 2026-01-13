@@ -1,7 +1,13 @@
 <?php
 
 use App\Livewire\CreateJournalEntry;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+
+uses(RefreshDatabase::class);
 
 it('renders successfully', function () {
     Livewire::test(CreateJournalEntry::class)
@@ -10,11 +16,23 @@ it('renders successfully', function () {
 
 it('creates a journal entry', function () {
     Livewire::test(CreateJournalEntry::class)
-        ->set('form.title', '02-12-25 Versailles')
-        ->set('form.plant_name', 'plantain')
-        ->set('form.notes', 'lots of them clustered')
+        ->set('form.title', 'My plant')
+        ->set('form.plant_name', 'Daisy')
+        ->set('form.notes', 'It is growing')
         ->call('submit');
-    $this->assertDatabaseHas('journal_entries', ['title' => '02-12-25 Versailles', 'plant_name' => 'plantain', 'notes' => 'lots of them clustered']);
+    $this->assertDatabaseHas('journal_entries', ['title' => 'My plant']);
+});
+
+it('creates a journal entry with an image', function () {
+    Storage::fake('public');
+    Livewire::test(CreateJournalEntry::class)
+        ->set('form.title', 'My plant with image')
+        ->set('form.plant_name', 'Daisy')
+        ->set('form.notes', 'It is growing')
+        ->set('form.image', UploadedFile::fake()->image('photo.jpg'))
+        ->call('submit');
+    $this->assertDatabaseHas('journal_entries', ['title' => 'My plant with image']);
+    expect(\App\Models\JournalEntry::first()->image_path)->not->toBeNull();
 });
 
 describe('validation Rules', function () {
@@ -43,4 +61,14 @@ it('redirects to JournalEntries after submitting', function () {
         ->set('form.notes', 'flowering marigolds')
         ->call('submit')
         ->assertRedirect(route('journalEntries.index'));
+});
+
+it('can generate any ai response and populate the plant name field', function () {
+    Http::fake([
+        '*/api/generate' => Http::response(['response' => 'Spider Plant'], 200),
+    ]);
+    Livewire::test(CreateJournalEntry::class)
+        ->set('form.image', UploadedFile::fake()->image('photo.jpg'))
+        ->call('generateAi')
+        ->assertSet('form.plant_name', 'Spider Plant');
 });

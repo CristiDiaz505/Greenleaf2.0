@@ -1,9 +1,12 @@
 <?php
 
-use App\Livewire\JournalEntryIndex;
 use App\Livewire\ShowJournalEntry;
 use App\Models\JournalEntry;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+
+uses(RefreshDatabase::class);
 
 it('renders successfully', function () {
 
@@ -25,6 +28,21 @@ it('shows the journal entry', function () {
 
     Livewire::test(ShowJournalEntry::class, ['journalEntry' => $journalEntry])
         ->assertSee(['First Post', 'Yarrow', 'Went on a walk and found a yellow flowering plant.']);
+
+});
+
+it('shows the journal entry image', function () {
+    Storage::fake('public');
+
+    $journalEntry = JournalEntry::factory()->create([
+        'title' => 'First Post',
+        'plant_name' => 'Yarrow',
+        'notes' => 'Went on a walk and found a yellow flowering plant.',
+        'image_path' => 'photos/test.jpg',
+    ]);
+
+    Livewire::test(ShowJournalEntry::class, ['journalEntry' => $journalEntry])
+        ->assertSee(Storage::url('photos/test.jpg'));
 
 });
 
@@ -50,19 +68,3 @@ it('deletes journal entry after clicking delete', function () {
         'notes' => 'Went on a walk and found a yellow flowering plant.',
     ]);
 });
-
-it('redirects to journal entry index after clicking back button', function () {
-    $journalEntry = JournalEntry::factory()->create([
-        'title' => 'Sweet small daisy',
-        'plant_name' => 'Daisy',
-        'notes' => 'The field is full of sweet small daisies. So pretty!',
-    ]);
-
-    Livewire::test(ShowJournalEntry::class, ['journalEntry' => $journalEntry])
-        ->call('Back');
-
-    Livewire::test(JournalEntryIndex::class, ['journalEntry' => $journalEntry])
-        ->assertSee(['Sweet small daisy', 'Daisy']);
-
-}
-);

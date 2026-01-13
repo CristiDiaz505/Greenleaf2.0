@@ -2,7 +2,10 @@
 
 use App\Livewire\JournalEntryIndex;
 use App\Models\JournalEntry;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+
+uses(RefreshDatabase::class);
 
 it('lists the journal entries', function () {
     $journalEntries = JournalEntry::factory()->count(3)->sequence(

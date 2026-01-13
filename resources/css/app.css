@@ -61,6 +61,207 @@ select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
 
+/* Journal Entries Page - Subtle Forest Theme */
+@layer utilities {
+    /* Background - Subtle forest gradient */
+    .journal-entries-page {
+        background: linear-gradient(180deg, #1a3d2e 0%, #22543d 30%, #2d5a47 60%, #1e4d3a 100%) !important;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    .journal-entries-page::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.02) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    /* Page Title */
+    .page-title {
+        font-size: 2.5rem !important;
+        font-weight: 700 !important;
+        color: #f0fdf4 !important;
+        letter-spacing: -0.02em !important;
+        margin-bottom: 0 !important;
+    }
+
+    .page-title flux-heading,
+    .page-title [is="flux-heading"] {
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        color: inherit !important;
+        letter-spacing: inherit !important;
+    }
+
+    /* Entry Card */
+    .entry-card {
+        position: relative;
+    }
+
+    .entry-link-wrapper {
+        display: block !important;
+        text-decoration: none !important;
+        color: inherit !important;
+    }
+
+    .entry-link-wrapper flux-link,
+    .entry-link-wrapper [is="flux-link"] {
+        display: block !important;
+        text-decoration: none !important;
+        color: inherit !important;
+    }
+
+    .entry-card-content {
+        background: #ffffff !important;
+        border: 1px solid rgba(34, 197, 94, 0.1) !important;
+        border-radius: 12px !important;
+        padding: 1.5rem 1.75rem !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        cursor: pointer !important;
+        box-shadow: 
+            0 1px 3px 0 rgba(0, 0, 0, 0.08),
+            0 1px 2px -1px rgba(0, 0, 0, 0.05),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.9) !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .entry-card-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(to right, transparent, rgba(34, 197, 94, 0.3), transparent);
+        opacity: 0;
+        transition: opacity 0.25s ease;
+    }
+
+    .entry-card:hover .entry-card-content {
+        transform: translateY(-3px) !important;
+        box-shadow: 
+            0 10px 20px -5px rgba(0, 0, 0, 0.12),
+            0 4px 8px -2px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 0 rgba(255, 255, 255, 1) !important;
+        border-color: rgba(34, 197, 94, 0.2) !important;
+    }
+
+    .entry-card:hover .entry-card-content::before {
+        opacity: 1;
+    }
+
+    /* Entry Title */
+    .entry-title {
+        font-size: 1.25rem !important;
+        font-weight: 600 !important;
+        line-height: 1.5 !important;
+        margin-bottom: 0 !important;
+        color: #0f172a !important;
+    }
+
+    .entry-title flux-heading,
+    .entry-title [is="flux-heading"],
+    .entry-title h1,
+    .entry-title h2,
+    .entry-title h3 {
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        color: inherit !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Plant Name */
+    .plant-name {
+        font-size: 0.9375rem !important;
+        color: #475569 !important;
+        font-weight: 500 !important;
+        font-style: normal !important;
+    }
+
+    .plant-name flux-text,
+    .plant-name [is="flux-text"],
+    .plant-name p,
+    .plant-name span {
+        font-size: inherit !important;
+        color: inherit !important;
+        font-weight: inherit !important;
+        font-style: inherit !important;
+    }
+
+    .plant-icon {
+        font-size: 1.125rem;
+        line-height: 1;
+        opacity: 0.8;
+        filter: brightness(0.9);
+    }
+
+    /* Entry Arrow */
+    .entry-arrow {
+        color: #94a3b8 !important;
+        flex-shrink: 0;
+        transition: transform 0.25s ease, color 0.25s ease;
+        margin-top: 0.125rem;
+    }
+
+    .entry-card:hover .entry-arrow {
+        transform: translateX(4px);
+        color: #64748b !important;
+    }
+
+    .entry-arrow svg {
+        stroke-width: 2.5;
+    }
+
+    /* Create Button */
+    .create-button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        font-size: 0.9375rem !important;
+        padding: 0.75rem 1.75rem !important;
+        border-radius: 10px !important;
+        border: none !important;
+        box-shadow: 
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -2px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
+        text-decoration: none !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        cursor: pointer !important;
+    }
+
+    .create-button:hover {
+        background: linear-gradient(135deg, #15803d 0%, #166534 100%) !important;
+        transform: translateY(-2px);
+        box-shadow: 
+            0 10px 15px -3px rgba(0, 0, 0, 0.15),
+            0 4px 6px -4px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 0 rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .create-button:active {
+        transform: translateY(0);
+    }
+
+    .create-button flux-link,
+    .create-button [is="flux-link"] {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+}
+
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
